@@ -1,3 +1,9 @@
+
+
+#deploy using following command
+
+ng build --prod --output-path=docs --base-href="https://jay1791994.github.io/myApp/"
+
 # MyApp
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.8.
