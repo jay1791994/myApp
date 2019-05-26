@@ -1,0 +1,24 @@
+.btn{
+    height: 30px;
+    width: 100px;
+}
+
+
+.btn-secondary{
+    margin : 3% 0%;
+    width: 300px;
+    background-color: navy;
+    color: white;
+}
+
+.form-container{
+   border: 3em black;
+   margin-top: 3%;
+}
+
+.btn-default{
+    margin : 3% 0%;
+    width: 300px;
+    background-color: navy;
+    color: white;
+}

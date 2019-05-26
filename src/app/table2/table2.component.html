@@ -1,0 +1,20 @@
+<div class="container">
+    <h2>Basic Table</h2>
+    <p>The .table class adds basic styling (light padding and only horizontal dividers) to a table:</p>            
+    <table class="table">
+      <thead>
+        <tr>
+          <th>field1</th>
+          <th>field2</th>
+          <th>field3</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tabledata of tableData">
+          <td>{{tabledata.field1}}</td>
+          <td>{{tabledata.field2}}</td>
+          <td>{{tabledata.field3}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
