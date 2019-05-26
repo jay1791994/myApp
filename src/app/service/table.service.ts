@@ -27,6 +27,10 @@ export class TableService {
   getdata(): Tabledata[]{
        return this.tableData;
   };
+
+  getdataatIndex(index): Tabledata{
+    return this.tableData[index];
+  }
   
   deletedata(index: number){
     console.log("delete function called")
@@ -44,4 +48,6 @@ export class TableService {
   updateData(index, tabledataUpdated: Tabledata){
     this.tableData[index] = tabledataUpdated;
   }
+
+  
 }

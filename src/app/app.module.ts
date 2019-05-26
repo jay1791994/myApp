@@ -6,6 +6,7 @@ import { Table1Component } from './table1/table1.component';
 import { Table2Component } from './table2/table2.component';
 import { HeaderComponent } from './header/header.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DetailsComponent } from './details/details.component';
 
 
 
@@ -16,6 +17,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     Table1Component,
     Table2Component,
     HeaderComponent,
+    DetailsComponent,
     
     
   ],

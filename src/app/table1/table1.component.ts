@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TableService } from '../service/table.service';
 import { Tabledata } from '../model/tabledata';
 import { FormGroup, FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 export class Table1Component implements OnInit {
 
   tableData: Tabledata[] = [];
-  constructor(private tableService: TableService) { }
+  constructor(private tableService: TableService, private router: Router) { }
   enableUpdate : boolean[] = [];
   showForm: boolean = false;
   dataForm = new FormGroup({
@@ -58,5 +59,11 @@ updatedata(index, f1:String , f2:String, f3:String){
        "field3":f3
   }
   this.tableService.updateData(index, tableDataupdated);
+
 }
+viewDetails(index){
+  
+   this.router.navigate(['viewdetails', index]);
+}
+
 }

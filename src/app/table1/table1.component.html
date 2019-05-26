@@ -42,11 +42,11 @@
           <td><input type="text" id="f2" value={{tabledata.field2}} [disabled]="!enableUpdate[i]" #f2></td>
           <td><input type="text" id="f3"value={{tabledata.field3}} [disabled]="!enableUpdate[i]"  #f3></td>
           
-          <td> <button class="btn btn-primary" >View Details</button></td>
+          <td> <button class="btn btn-primary" (click)="viewDetails(i)">View Details</button></td>
           <td *ngIf='!enableUpdate[i]'><button class="btn btn-warning"(click)="toggleenabledarr(i)" >Edit</button></td>
           <td *ngIf='enableUpdate[i]'><button class="btn btn-success"(click)="updatedata(i, this.f1.value, this.f2.value, this.f3.value)" >Save</button></td>
           <td><button class="btn btn-danger" (click)='ondeletedata(i)'>Delete</button></td>
-      
+          
         </tr>
       </tbody>
     </table>
