@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Tabledata } from '../model/tabledata';
+import { HttpClient } from '@angular/common/http';
+import { Observable , } from 'rxjs';
 
 
 @Injectable({
@@ -7,46 +9,42 @@ import { Tabledata } from '../model/tabledata';
 })
 export class TableService {
 
-   private tableData: Tabledata[] = [
-    {
-       field1:"NAME1",
-       field2:"AGE1",
-       field3:"SALARY1"
-    },{
-      field1:"NAME2",
-      field2:"AGE2",
-      field3:"SALARY2"
-   },{
-    field1:"NAME3",
-    field2:"AGE3",
-    field3:"SALARY3"
-     }];
 
-  constructor() { };
-  
-  getdata(): Tabledata[]{
-       return this.tableData;
+  constructor(private http: HttpClient){
+
+    
+  }
+
+   private tableData: Tabledata[] = [
+       
+   ];
+
+  getdata(): Observable<Tabledata[]>{
+      return this.http.get<Tabledata[]>("http://ec2-18-222-165-200.us-east-2.compute.amazonaws.com:8080/UserApp-0.0.1-SNAPSHOT/api/user");
   };
 
-  getdataatIndex(index): Tabledata{
-    return this.tableData[index];
+  getdataatIndex(userId:String): Observable<any>{
+    let url =  "http://ec2-18-222-165-200.us-east-2.compute.amazonaws.com:8080/UserApp-0.0.1-SNAPSHOT/api/user/"+userId ;
+   return this.http.get(url);
   }
   
-  deletedata(index: number){
-    console.log("delete function called")
-    console.log(this.tableData);
-    this.tableData.splice(index, 1);
-    console.log(index);
-    console.log(this.tableData)
-   
+  deletedata( userId : String) : Observable<any>{
+      console.log(userId);
+      let url =  "http://ec2-18-222-165-200.us-east-2.compute.amazonaws.com:8080/UserApp-0.0.1-SNAPSHOT/api/user/"+userId ;
+      return  this.http.delete(url);
   }
 
-  addData(newdata : Tabledata){
-    this.tableData.push(newdata);
-  }
-
-  updateData(index, tabledataUpdated: Tabledata){
-    this.tableData[index] = tabledataUpdated;
+  addData(newdata : Tabledata): Observable<any>{
+    return  this.http.post("http://ec2-18-222-165-200.us-east-2.compute.amazonaws.com:8080/UserApp-0.0.1-SNAPSHOT/api/api/user/" , {
+        name: newdata.name,
+        age : newdata.age,
+        email: newdata.email
+    })} ;
+  
+  updateData(tabledataUpdated: Tabledata): Observable<any>{
+      
+     return this.http.put("http://ec2-18-222-165-200.us-east-2.compute.amazonaws.com:8080/UserApp-0.0.1-SNAPSHOT/api/user/", tabledataUpdated);
+     
   }
 
   

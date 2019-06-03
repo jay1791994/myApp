@@ -5,8 +5,9 @@ import { AppComponent } from './app.component';
 import { Table1Component } from './table1/table1.component';
 import { Table2Component } from './table2/table2.component';
 import { HeaderComponent } from './header/header.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { DetailsComponent } from './details/details.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -24,7 +25,9 @@ import { DetailsComponent } from './details/details.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

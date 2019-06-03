@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { TableService } from '../service/table.service';
 import { Tabledata } from '../model/tabledata';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators, EmailValidator } from '@angular/forms';
 import { Router } from '@angular/router';
+
+
 
 
 @Component({
@@ -12,58 +14,105 @@ import { Router } from '@angular/router';
 })
 export class Table1Component implements OnInit {
 
+
   tableData: Tabledata[] = [];
   constructor(private tableService: TableService, private router: Router) { }
-  enableUpdate : boolean[] = [];
+  enableUpdate: boolean[] = [];
   showForm: boolean = false;
+  formError: String = null;
   dataForm = new FormGroup({
-    field1: new FormControl(''),
-    field2: new FormControl(''),
-    field3: new FormControl('')
+    name: new FormControl('', Validators.required),
+    age: new FormControl('', Validators.required),
+    email: new FormControl('', [Validators.email, Validators.required])
   });
+  
+  
   ngOnInit() {
     console.log("called from ")
-    this.tableData = this.tableService.getdata();
-    for(var i=0; i < this.tableData.length ; i++){
-           this.enableUpdate[i] = false;
+    this.tableService.getdata().subscribe(res=>{
+       this.tableData = res;
+    },
+    error =>{
+      console.log(error);
+    })
+    for (var i = 0; i < this.tableData.length; i++) {
+      this.enableUpdate[i] = false;
     }
   }
-  ondeletedata( index: number){
-     this.tableService.deletedata(index)
+  ondeletedata(index: number) {
+    this.tableService.deletedata(this.tableData[index].userId).subscribe(
+        res=>{
+          if(res){
+          this.tableData.splice(index,1);
+          }
+        }
+    );
+ 
   }
-  onSubmitData(){
-    let tabledata = {
-       "field1" : this.dataForm.get("field1").value,
-       "field2" : this.dataForm.get("field2").value,
-       "field3" : this.dataForm.get("field3").value,
+  onSubmitData() {
+   
+    if (this.dataForm.valid) {
+      let tabledata = {
+        "name": this.dataForm.get("name").value,
+        "age": this.dataForm.get("age").value,
+        "email": this.dataForm.get("email").value,
+      }
+
+     this.tableService.addData(tabledata).subscribe(res=>{
+       this.showForm = !this.showForm;
+       this.tableData.push(res);
+       },
+       error =>{
+         this.formError = "Invalid data has been given"
+       })
+    }else{
+      this.formError = "";
+      if(!this.dataForm.get("name").valid && this.dataForm.get("name").touched)
+      this.formError = this.formError+ `Name can not be empty`;
+      if(!this.dataForm.get("name").touched)
+      this.formError = this.formError +
+                       `Invalid Age.`
+      if(!this.dataForm.get("email").valid )
+      this.formError = this.formError + 
+                       `\n Invalid EmailId.`;
+      if(this.dataForm.get("email").untouched)
+      this.formError = this.formError +
+                       `EmailId can not be empty`;
+
     }
+  }
+
+  toggleenabledarr(i: number) {
+
+    console.log("method called")
+    console.log(this.enableUpdate[i])
+    this.enableUpdate[i] = !this.enableUpdate[i];
+    console.log(this.enableUpdate[i])
+
+  }
+
+  updatedata(index: number, nameArg: String, ageArg: String, emailArg: String, f1: ElementRef, f2: ElementRef,f3: ElementRef ) {
+
+
+      this.enableUpdate[index] = !this.enableUpdate[index];
+      let tableDataupdated = {
+        "name": nameArg,
+        "age": +ageArg,
+        "email": emailArg,
+        "userId": this.tableData[index].userId
+      }
     
-    this.tableService.addData(tabledata);
-    this.showForm = !this.showForm;
- }
-
- toggleenabledarr(i){
- 
-  console.log("method called")
-  console.log(this.enableUpdate[i])
-  this.enableUpdate[i] = !this.enableUpdate[i];
-  console.log(this.enableUpdate[i])
- 
-}
-
-updatedata(index, f1:String , f2:String, f3:String){
-  this.enableUpdate[index] = !this.enableUpdate[index];
-  let tableDataupdated = {
-       "field1": f1,
-       "field2":f2,
-       "field3":f3
+      this.tableService.updateData(tableDataupdated).subscribe(res=>{
+          this.tableData[index] = res;
+        },
+        error =>{
+          this.formError = "Invalid data has been given"
+        })
   }
-  this.tableService.updateData(index, tableDataupdated);
+  viewDetails(index: number) {
 
-}
-viewDetails(index){
-  
-   this.router.navigate(['viewdetails', index]);
-}
+    this.router.navigate(['viewdetails', this.tableData[index].userId]);
+  }
 
+ 
 }

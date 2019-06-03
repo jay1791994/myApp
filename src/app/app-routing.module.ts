@@ -7,7 +7,7 @@ import { DetailsComponent } from './details/details.component';
 const routes: Routes = [
   {path:'table1', component:Table1Component},
   {path:'table2', component:Table2Component},
-  {path:'viewdetails/:index', component: DetailsComponent},
+  {path:'viewdetails/:userId', component: DetailsComponent},
   {path:'', component:Table2Component, pathMatch:"full"}
 
 ];

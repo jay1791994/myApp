@@ -1,12 +1,16 @@
-<div class="modal-header">
-  <label class="label label-success">Field1:</label>
-  <h5><span>{{data.field1}}</span></h5>
-</div>
-<div class="modal-header">
-    <label class="label label-success">Field2:</label>
-    <h5><span>{{data.field2}}</span></h5>
-</div>
-<div class="modal-header">
-    <label class="label label-success">Field3: </label>
-    <h5><span>{{data.field3}}</span></h5>
-</div>
+<br>
+<br>
+<div class="container">
+<div class="panel panel-success">
+    <div class="panel-heading">{{data.name}}</div>
+    <div class="panel-body">
+       Age is : {{data.age}}
+    </div>
+    <div class="panel-body">
+       EmailId  is : {{data.email}}
+     </div>
+     <div class="panel-body">
+       <button class="btn btn-primary" (click)="goback()"> BACK</button>
+      </div>
+  </div>
+  </div>

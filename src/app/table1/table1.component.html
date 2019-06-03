@@ -2,26 +2,30 @@
  <div class="container" *ngIf="!showForm">
     <button type="button" class="btn btn-secondary" (click)=" showForm= !showForm" >NEW</button>
  </div>
- <div *ngIf="showForm" style="border: 10px black">
-  <form [formGroup]="dataForm" (ngSubmit)="onSubmitData()">
+ <div *ngIf="showForm" style="border: 10px black"> 
+  <form [formGroup]="dataForm" (ngSubmit)="onSubmitData()" #myForm>
   <div class="container form-container">
     <div class="row">
       <div class="col-lg-4">
          <label>Field1 </label>
-         <input type="text" placeholder="Enter value of field1" formControlName="field1" required/>
+         <input type="text" placeholder="Enter value of Name" formControlName="name" />
       </div>
       <div class="col-lg-4">
         <label>Field1 </label>
-        <input type="text" placeholder="Enter value of field2" formControlName="field2" required/>
+        <input type="number" placeholder="Enter value of field2" formControlName="age"/>
       </div>
       <div class="col-lg-4">
         <label>Field1 </label>
-        <input type="text" placeholder="Enter value of field3" formControlName="field3" required>
+        <input type="email" placeholder="Enter value of field3" formControlName="email">
       </div>
   </div>
    <div class="container">
-      <button type="submit" class="btn btn-default">SUBMIT DATA</button>
+      <button type="submit" class="btn btn-default" >SUBMIT DATA</button> <span> | </span>
+      <button type="submit" class="btn btn-default" (click)="showForm=!showForm">HIDE FORM</button>
    </div>
+   <div class="container" *ngIf="formError">
+      <h4>{{formError}}</h4>
+    </div>
     </div>
     </form>
  </div>
@@ -29,24 +33,33 @@
       <table class="table">
       <thead>
         <tr>
-          <th>field1</th>
-          <th>field2</th>
-          <th>field3</th>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Email</th>
         </tr>
       </thead>
       <tbody>
+       
         <tr *ngFor="let tabledata of tableData let i = index;">
          
-       
-          <td><input type="text" id="f1"value={{tabledata.field1}} [disabled]="!enableUpdate[i]"  #f1></td>
-          <td><input type="text" id="f2" value={{tabledata.field2}} [disabled]="!enableUpdate[i]" #f2></td>
-          <td><input type="text" id="f3"value={{tabledata.field3}} [disabled]="!enableUpdate[i]"  #f3></td>
           
-          <td> <button class="btn btn-primary" (click)="viewDetails(i)">View Details</button></td>
+          <td><input type="text" id="f1"  value={{tabledata.name}} [disabled]="!enableUpdate[i]" [(ngModel)]='tabledata.name' #f1="ngModel" required>
+            <div *ngIf="f1.errors">
+                Name is required.
+              </div></td>
+          <td><input type="number" id="f2"  value={{tabledata.age}} [disabled]="!enableUpdate[i]" [(ngModel)]='tabledata.age' #f2="ngModel" required>
+          <div *ngIf="f2.errors">
+              Age is required number
+            </div></td>
+          <td><input type="email" id="f3" value={{tabledata.email}} [disabled]="!enableUpdate[i]" [(ngModel)]='tabledata.email'  #f3="ngModel" required email>
+          <div *ngIf="f3.errors">
+              Invalid Email Id
+            </div></td>
+          <td> <button class="btn btn-primary" (click)="(i)">View Details</button></td>
           <td *ngIf='!enableUpdate[i]'><button class="btn btn-warning"(click)="toggleenabledarr(i)" >Edit</button></td>
-          <td *ngIf='enableUpdate[i]'><button class="btn btn-success"(click)="updatedata(i, this.f1.value, this.f2.value, this.f3.value)" >Save</button></td>
-          <td><button class="btn btn-danger" (click)='ondeletedata(i)'>Delete</button></td>
-          
+          <td *ngIf='enableUpdate[i]'><button class="btn btn-success"(click)="updatedata(i, this.f1.value, this.f2.value, this.f3.value)" [disabled]='(f1.invalid && f1.touched)||(f2.invalid && f2.touched) ||(f3.invalid && f3.touched)' >Save</button></td>
+          <td><button class="btn btn-danger" (click)='ondeletedata(i)'>Delete</button></td>|
+        
         </tr>
       </tbody>
     </table>
